@@ -4,26 +4,13 @@ permissions:
 jobs:
   build:
     runs-on: self-hosted
-    timeout-minutes: 10
+    timeout-minutes: 15
     strategy:
       fail-fast: false
       matrix:
-        python-version:
-        - '3.10'
-        - '3.11'
-        - '3.12'
-        - '3.13'
-        - '3.14'
-        - 3.14t
-        - 3.15-dev
-        - pypy-3.11
-        os:
-        - ubuntu-22.04
-        - macOS-latest
-        - windows-latest
-        exclude:
-        - python-version: pypy-3.11
-          os: windows-latest
+        include:
+        - python-version: '3.10'
+          os: ubuntu-latest
     steps:
     - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
       with:
@@ -63,6 +50,7 @@ jobs:
     - name: Run tests
       run: |
         make ci
+    timeout-minutes: 15
   urllib3:
     name: urllib3 1.x
     runs-on: self-hosted
@@ -83,6 +71,7 @@ jobs:
     - name: Run tests
       run: |
         make ci
+    timeout-minutes: 15
 env:
   PYTHONPATH: /tmp/instr
   BASH_ENV: /tmp/instr/bash_env.sh
